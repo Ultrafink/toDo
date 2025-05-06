@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Список дел</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+  <header>
+    <h1 id="weekday"></h1>
+    <p id="date"></p>
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Поиск" />
+      <img src="/search.png" alt="Редактировать" class="icon">
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="setFilter('all')">Все</button>
+      <button class="tab" onclick="setFilter('active')">Активные</button>
+      <button class="tab" onclick="setFilter('done')">Завершённые</button>
+    </div>
+  </header>
+  <main id="task-list"></main>
+
+  <button class="add-button" onclick="openModal()">
+    <img src="/edit.png" alt="Добавить" class="icon" />
+  </button>
+
+  <div class="modal hidden" id="task-modal">
+    <div class="modal-content">
+      <input type="text" id="task-desc" placeholder="Описание" />
+      <label for="task-date"></label>
+      <input type="datetime-local" id="task-date" placeholder="Дата" />
+      <label class="remind-label">
+        Напомнить мне
+        <div class="switch-container">
+          <div class="switch">
+            <input type="checkbox" id="remind-checkbox" />
+            <span class="slider"></span>
+          </div>
+        </div>
+      </label>
+      <div class="modal-actions">
+        <button id="submit-task">Добавить</button>
+        <button onclick="closeModal()">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Шаблон для задачи -->
+<template id="task-template">
+  <div class="task">
+    <input type="checkbox" class="task-checkbox">
+    <div class="info">
+      <strong class="task-description"></strong>
+      <small class="task-date"></small>
+    </div>
+    <div class="task-actions">
+      <button class="edit-btn" onclick="editTask()">
+        <img src="/edit-text.png" alt="Редактировать" class="icon">
+      </button>
+      <button class="delete-btn" onclick="deleteTask()">
+        <img src="/trash.png" alt="Удалить" class="icon">
+      </button>
+    </div>
+  </div>
+</template>
+  
+  
+  <audio id="notify-sound" src="/notification-alert-4-331722.mp3" preload="auto"></audio>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- В жопу уродский хромовский календарь -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    flatpickr("#task-date", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      time_24hr: true
+    });
+  });
+</script>
+
+</body>
+</html>
